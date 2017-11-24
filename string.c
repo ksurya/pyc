@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
+
 // globals
 const char _ASCII_LOWER_MIN = 'a';
 const char _ASCII_LOWER_MAX = 'z';
@@ -38,50 +39,37 @@ char *expandtabs(char *new, const char *line, int tabsize) {
 }
 
 
+int startswith(const char *str, const char *sub) {
+    if (!*sub || !*str)
+        return 0;
+
+    while (*sub)
+        if (*str++ != *sub++)
+            return 0;
+    
+    return 1;
+}
+
+
 int find(const char *str, const char *sub) {
-    const char *start_str = str;
-    const char *start_sub = sub;
-    int index = -1;
+    int pre;
 
-    while (*str) {
-        if (*str == *sub) {
-            index = index < 0 ? str - start_str : index;
-            sub++;
-        } else {
-            index = -1;
-            sub = start_sub;
-        }
+    for (pre = 0; pre < strlen(str); pre++)
+        if (startswith(str + pre, sub))
+            return pre;
 
-        if (!*sub)
-            return index;
-
-        str++;
-    }
-
-    return *sub ? -1 : index;
+    return -1;
 }
 
 
 int rfind(const char *str, const char *sub) {
-    int str_index = strlen(str) - 1;
-    int sub_index = strlen(sub) - 1;
-    int index = -1;
+    int str_len = strlen(str);
+    int sub_len = strlen(sub);
+    int pre;
 
-    while (str_index >= 0) {
-        if (*(str + str_index) == *(sub + sub_index)) {
-            index = str_index;
-            sub_index--;
-        } else {
-            index = -1;
-            sub_index = strlen(sub) - 1;
-        }
+    for (pre = str_len - sub_len; pre >= 0; pre--)
+        if (startswith(str + pre, sub))
+            return pre;
 
-        if (sub_index < 0) {
-            return index;
-        }
-
-        str_index--;
-    }
-
-    return sub_index < 0 ? index : -1;
+    return -1;
 }
