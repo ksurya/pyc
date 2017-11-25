@@ -199,10 +199,12 @@ char *strip(char *new, const char *str) {
 
 
 char *join(char *new, char **str, char sep) {
+    char *chr;
     char *start = new;
 
     while (*str) {
-        while((*new++ = *(*str)++) != '\0');
+        chr = *str;
+        while((*new++ = *chr++) != '\0');
         *(new - 1) = *(str + 1) ? sep : '\0';
         str++;
     }
