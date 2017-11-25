@@ -127,8 +127,72 @@ char *rjust(char *jst, const char *str, int width, char fill) {
     if (len >= width)
         return start;
 
-    for (jst--; cnt < width - len; cnt++, *++jst = 0)
+    for (jst--; cnt < width - len; cnt++, *++jst = '\0')
         *jst = fill;
 
     return start;
+}
+
+
+char *zfill(char *new, const char *str, int width) {
+    return ljust(new, str, width, '0');
+}
+
+
+char *replace(char *new, const char *str, const char *old_sub, 
+              const char *new_sub,
+              int max_replace) {
+    int i = 0;
+    int pos = 0;
+    char *start = new;
+    int new_sub_len = strlen(new_sub);
+    int old_sub_len = strlen(old_sub);
+    
+    while (max_replace-- && (pos = find(str, old_sub)) >= 0) {        
+        for (i = 0; i < pos; i++)
+            *new++ = *(str + i);
+
+        for (i = 0; i < new_sub_len; i++)
+            *new++ = *(new_sub + i);
+        
+        str += pos + old_sub_len;
+    }
+
+    while ((*new++ = *str++) != '\0');
+
+    return start;
+}
+
+
+char *lstrip(char *new, const char *str) {
+    char *start = new;
+
+    while (*str && (*str == '\t' || *str == '\r' || *str == '\n' || *str == ' '))
+        str++;
+    while ((*new++ = *str++) != '\0');
+
+    return start;
+}
+
+
+char *rstrip(char *new, const char *str) {
+    char *start = new;
+    const char *end = str + strlen(str) - 1;
+
+    while (end >= str) {
+        if (*end != '\t' && *end != '\r' && *end != '\n' && *end != ' ')
+            break;
+        end--;
+    }
+
+    while (str <= end)
+        *new++ = *str++;
+    *new = '\0';
+
+    return start;
+}
+
+
+char *strip(char *new, const char *str) {
+    return rstrip(new, lstrip(new, str));
 }
