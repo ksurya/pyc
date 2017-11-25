@@ -196,3 +196,16 @@ char *rstrip(char *new, const char *str) {
 char *strip(char *new, const char *str) {
     return rstrip(new, lstrip(new, str));
 }
+
+
+char *join(char *new, char **str, char sep) {
+    char *start = new;
+
+    while (*str) {
+        while((*new++ = *(*str)++) != '\0');
+        *(new - 1) = *(str + 1) ? sep : '\0';
+        str++;
+    }
+
+    return start;
+}
