@@ -1,5 +1,18 @@
 PYC
 
+
+Usage
+=====
+
+#include <stdio.h>
+#include "string.c"
+
+int main() {
+    char s[20];
+    printf("%s\n", string.capitalize(s, "hello world"));
+}
+
+
 Reference 
 =========
 
