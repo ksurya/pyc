@@ -3,6 +3,15 @@
 //
 
 
+/**
+    Copy string to a character array
+
+    Arguments
+        new: outputpointer to the start of the character array
+        str: pointer to the start of the string or char array
+    Returns
+        new
+ */
 char *_strcopy(char *new, const char *str) {
     char *start = new;
     while ((*new++ = *str++) != '\0');
@@ -10,6 +19,14 @@ char *_strcopy(char *new, const char *str) {
 }
 
 
+/**
+    Computes length of the string. Stops after a NULL pointer is found.
+
+    Arguments
+        str: pointer to the start of the string or char array
+    Returns
+        length
+ */
 int _strlength(const char *s) {
     int i = 0;
     while (*s++ != '\0') i++;
@@ -17,6 +34,15 @@ int _strlength(const char *s) {
 }
 
 
+/**
+    Returns a copy of the string with first char capitalized
+
+    Arguments
+        new: output, pointer to the start of the char array
+        str: pointer to the start of the string
+    Returns
+        new
+ */
 char *_capitalize(char *new, const char *line) {
     _strcopy(new, line);
     if (*new >= 'a' && *new <= 'z')
@@ -25,6 +51,16 @@ char *_capitalize(char *new, const char *line) {
 }
 
 
+/**
+    Returns a copy of the string inverting lowercase to uppercase and
+    vice versa.
+
+    Arguments
+        new: output, pointer to the start of the char array
+        str: pointer to the start of the string
+    Returns
+        new
+ */
 char *_swapcase(char *new, const char *line) {
     char *start = new;
 
@@ -43,17 +79,27 @@ char *_swapcase(char *new, const char *line) {
 }
 
 
-char *_expandtabs(char *new, const char *line, int tabsize) {
+/**
+    Returns a copy of the string replacing tabs with spaces
+
+    Arguments
+        new: output, pointer to the start of the char array
+        str: pointer to the start of the string
+        tabsize: size of a tab in spaces
+    Returns
+        new
+ */
+char *_expandtabs(char *new, const char *str, int tabsize) {
     char *start = new;
     int count;
 
-    while (*line) {
-        if (*line == '\t')
+    while (*str) {
+        if (*str == '\t')
             for (count = 0; count < tabsize; count++)
                 *new++ = ' ';
         else
-            *new++ = *line;
-        line++;
+            *new++ = *str;
+        str++;
     }
 
     *new = '\0';
@@ -61,6 +107,15 @@ char *_expandtabs(char *new, const char *line, int tabsize) {
 }
 
 
+/**
+    Returns 1 if str starts with sub, otherwise 0
+
+    Arguments
+        str: output, pointer to the start of the char array
+        sub: pointer to the start of the string
+    Returns
+        1 or 0
+ */
 int _startswith(const char *str, const char *sub) {
     if (!*sub || !*str)
         return 0;
@@ -73,6 +128,15 @@ int _startswith(const char *str, const char *sub) {
 }
 
 
+/**
+    Returns 1 if str ends with sub, otherwise 0
+
+    Arguments
+        str: output, pointer to the start of the char array
+        sub: pointer to the start of the string
+    Returns
+        1 or 0
+ */
 int _endswith(const char *str, const char *sub) {
     int i = _strlength(str);
     int j = _strlength(sub);
@@ -88,6 +152,16 @@ int _endswith(const char *str, const char *sub) {
 }
 
 
+/**
+    Returns the lowest starting index in str where sub is found.
+    Returns -1 if sub is not found in str.
+
+    Arguments
+        str: output, pointer to the start of the char array
+        sub: pointer to the start of the string
+    Returns
+        lowest starting index
+ */
 int _find(const char *str, const char *sub) {
     int pre;
 
@@ -99,6 +173,16 @@ int _find(const char *str, const char *sub) {
 }
 
 
+/**
+    Returns the highest starting index in str where sub is found.
+    Returns -1 if sub is not found in str.
+
+    Arguments
+        str: output, pointer to the start of the char array
+        sub: pointer to the start of the string
+    Returns
+        highest starting index
+ */
 int _rfind(const char *str, const char *sub) {
     int str_len = _strlength(str);
     int sub_len = _strlength(sub);
@@ -112,6 +196,15 @@ int _rfind(const char *str, const char *sub) {
 }
 
 
+/**
+    Returns number of non-overlapping occurrences of sub in str
+
+    Arguments
+        str: output, pointer to the start of the char array
+        sub: pointer to the start of the string
+    Returns
+        integer >= 0
+ */
 int _count(const char *str, const char *sub) {
     int sub_len = _strlength(sub);
     int count = 0;
@@ -124,6 +217,17 @@ int _count(const char *str, const char *sub) {
 }
 
 
+/**
+    Returns a copy of left justtified str
+
+    Arguments
+        jst: output, pointer to the left justified char array
+        str: pointer to the start of the string
+        width: left justified width
+        fill: filling character
+    Returns
+        jst
+ */
 char *_ljust(char *jst, const char *str, int width, char fill) {
     char *start = jst;
     int len = _strlength(str);
@@ -143,6 +247,17 @@ char *_ljust(char *jst, const char *str, int width, char fill) {
 }
 
 
+/**
+    Returns a copy of right justtified str
+
+    Arguments
+        jst: output, pointer to the right justified char array
+        str: pointer to the start of the string
+        width: right justified width
+        fill: filling character
+    Returns
+        jst
+ */
 char *_rjust(char *jst, const char *str, int width, char fill) {
     char *start = jst;
     int len = _strlength(str);
@@ -160,11 +275,36 @@ char *_rjust(char *jst, const char *str, int width, char fill) {
 }
 
 
+/**
+    Returns a copy of left justtified str with zeros.
+    str is typically expected to be a char array of numbers.
+
+    Arguments
+        jst: output, pointer to the left justified char array
+        str: pointer to the start of the string
+        width: left justified width
+        fill: filling character
+    Returns
+        jst
+ */
 char *_zfill(char *new, const char *str, int width) {
     return _ljust(new, str, width, '0');
 }
 
 
+/**
+    Returns a copy of str with all non-overlapping occurrences of old_sub
+    replaces with new_sub.
+
+    Arguments
+        new: output, pointer to the copy of the replaced char array
+        str: pointer to the start of the string
+        old_sub: pointer to the start of substring to be replaced
+        new_sub: pointer to the start of substring to be replaced with
+        max_replace: max number of substrings to replace
+    Returns
+        new
+ */
 char *_replace(char *new, const char *str, const char *old_sub, 
               const char *new_sub,
               int max_replace) {
@@ -190,6 +330,15 @@ char *_replace(char *new, const char *str, const char *old_sub,
 }
 
 
+/**
+    Returns a copy of str with leading whitespace removed
+
+    Arguments
+        new: output, pointer to the copy of string
+        str: pointer to the start of the string
+    Returns
+        new
+ */
 char *_lstrip(char *new, const char *str) {
     char *start = new;
 
@@ -201,6 +350,15 @@ char *_lstrip(char *new, const char *str) {
 }
 
 
+/**
+    Returns a copy of str with tailing whitespace removed
+
+    Arguments
+        new: output, pointer to the copy of string
+        str: pointer to the start of the string
+    Returns
+        new
+ */
 char *_rstrip(char *new, const char *str) {
     char *start = new;
     const char *end = str + _strlength(str) - 1;
@@ -219,11 +377,31 @@ char *_rstrip(char *new, const char *str) {
 }
 
 
+/**
+    Returns a copy of str with tailing and leading whitespace removed
+
+    Arguments
+        new: output, pointer to the copy of string
+        str: pointer to the start of the string
+    Returns
+        new
+ */
 char *_strip(char *new, const char *str) {
     return _rstrip(new, _lstrip(new, str));
 }
 
 
+/**
+    Returns an array which is concatenation of character arrays 
+    separated by a character.
+
+    Arguments
+        new: output, pointer to the concatenated array
+        str: pointer to the char array(s)
+        sep: character that seperates two arrays
+    Returns
+        new
+ */
 char *_join(char *new, char **str, char sep) {
     char *chr;
     char *start = new;
@@ -239,6 +417,15 @@ char *_join(char *new, char **str, char sep) {
 }
 
 
+/**
+    Returns 1 if all elements in the array are alphabetic and there
+    exists at least one element, 0 otherwise.
+
+    Arguments
+        str: pointer to the start of the string
+    Returns
+        1 or 0
+ */
 int _isalpha(const char *s) {
     if (!*s)
         return 0;
@@ -251,6 +438,15 @@ int _isalpha(const char *s) {
 }
 
 
+/**
+    Returns 1 if all elements in the array are digits and there
+    exists at least one element, 0 otherwise.
+
+    Arguments
+        str: pointer to the start of the string
+    Returns
+        1 or 0
+ */
 int _isdigit(const char *s) {
     if (!*s)
         return 0;
@@ -263,6 +459,15 @@ int _isdigit(const char *s) {
 }
 
 
+/**
+    Returns 1 if all elements in the array are alphabetic or digits 
+    and there exists at least one element, 0 otherwise.
+
+    Arguments
+        str: pointer to the start of the string
+    Returns
+        1 or 0
+ */
 int _isalnum(const char *s) {
     if (!*s)
         return 0;
@@ -277,6 +482,14 @@ int _isalnum(const char *s) {
 }
 
 
+/**
+    Returns 0 if there exists at least one uppercase alphabetic, otherwise 1
+
+    Arguments
+        str: pointer to the start of the string
+    Returns
+        1 or 0
+ */
 int _islower(const char *s) {
     while (*s) {
         if (*s >= 'A' && *s <= 'Z')
@@ -287,6 +500,14 @@ int _islower(const char *s) {
 }
 
 
+/**
+    Returns 0 if there exists at least one lowercase alphabetic, otherwise 1
+
+    Arguments
+        str: pointer to the start of the string
+    Returns
+        1 or 0
+ */
 int _isupper(const char *s) {
     while (*s) {
         if (*s >= 'a' && *s <= 'z')
@@ -297,6 +518,14 @@ int _isupper(const char *s) {
 }
 
 
+/**
+    Returns 0 if there exists at least one non-whitespace char, otherwise 1
+
+    Arguments
+        str: pointer to the start of the string
+    Returns
+        1 or 0
+ */
 int _isspace(const char *s) {
     while (*s) {
         if (*s != '\t' || *s != '\n' || *s != '\r' || *s != ' ')
@@ -338,7 +567,9 @@ typedef struct {
 } pyc_string_t;
 
 
-pyc_string_t string = { 
+// expose string functions through a structure
+// to *not* corrupt namespace
+const pyc_string_t pyc_string = { 
     _strcopy,
     _swapcase,
     _capitalize,
