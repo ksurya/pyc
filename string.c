@@ -3,29 +3,29 @@
 //
 
 
-char *strcopy(char *new, const char *str) {
+char *_strcopy(char *new, const char *str) {
     char *start = new;
     while ((*new++ = *str++) != '\0');
     return start;
 }
 
 
-int strlength(const char *s) {
+int _strlength(const char *s) {
     int i = 0;
     while (*s++ != '\0') i++;
     return i;
 }
 
 
-char *capitalize(char *new, const char *line) {
-    strcopy(new, line);
+char *_capitalize(char *new, const char *line) {
+    _strcopy(new, line);
     if (*new >= 'a' && *new <= 'z')
         *new = 'A' + *new - 'a';
     return new;
 }
 
 
-char *swapcase(char *new, const char *line) {
+char *_swapcase(char *new, const char *line) {
     char *start = new;
 
     while (*line) {
@@ -43,7 +43,7 @@ char *swapcase(char *new, const char *line) {
 }
 
 
-char *expandtabs(char *new, const char *line, int tabsize) {
+char *_expandtabs(char *new, const char *line, int tabsize) {
     char *start = new;
     int count;
 
@@ -61,7 +61,7 @@ char *expandtabs(char *new, const char *line, int tabsize) {
 }
 
 
-int startswith(const char *str, const char *sub) {
+int _startswith(const char *str, const char *sub) {
     if (!*sub || !*str)
         return 0;
 
@@ -73,9 +73,9 @@ int startswith(const char *str, const char *sub) {
 }
 
 
-int endswith(const char *str, const char *sub) {
-    int i = strlength(str);
-    int j = strlength(sub);
+int _endswith(const char *str, const char *sub) {
+    int i = _strlength(str);
+    int j = _strlength(sub);
 
     if (!*sub || !*str)
         return 0;
@@ -88,45 +88,45 @@ int endswith(const char *str, const char *sub) {
 }
 
 
-int find(const char *str, const char *sub) {
+int _find(const char *str, const char *sub) {
     int pre;
 
-    for (pre = 0; pre < strlength(str); pre++)
-        if (startswith(str + pre, sub))
+    for (pre = 0; pre < _strlength(str); pre++)
+        if (_startswith(str + pre, sub))
             return pre;
 
     return -1;
 }
 
 
-int rfind(const char *str, const char *sub) {
-    int str_len = strlength(str);
-    int sub_len = strlength(sub);
+int _rfind(const char *str, const char *sub) {
+    int str_len = _strlength(str);
+    int sub_len = _strlength(sub);
     int pre;
 
     for (pre = str_len - sub_len; pre >= 0; pre--)
-        if (startswith(str + pre, sub))
+        if (_startswith(str + pre, sub))
             return pre;
 
     return -1;
 }
 
 
-int scount(const char *str, const char *sub) {
-    int sub_len = strlength(sub);
+int _count(const char *str, const char *sub) {
+    int sub_len = _strlength(sub);
     int count = 0;
     int pre;
 
-    for (pre = 0; pre < strlength(str); pre += sub_len)
-        count += startswith(str + pre, sub);
+    for (pre = 0; pre < _strlength(str); pre += sub_len)
+        count += _startswith(str + pre, sub);
 
     return count;
 }
 
 
-char *ljust(char *jst, const char *str, int width, char fill) {
+char *_ljust(char *jst, const char *str, int width, char fill) {
     char *start = jst;
-    int len = strlength(str);
+    int len = _strlength(str);
     int cnt;
 
     if (len >= width) {
@@ -143,9 +143,9 @@ char *ljust(char *jst, const char *str, int width, char fill) {
 }
 
 
-char *rjust(char *jst, const char *str, int width, char fill) {
+char *_rjust(char *jst, const char *str, int width, char fill) {
     char *start = jst;
-    int len = strlength(str);
+    int len = _strlength(str);
     int cnt = 0;
 
     while ((*jst++ = *str++) != '\0');
@@ -160,21 +160,21 @@ char *rjust(char *jst, const char *str, int width, char fill) {
 }
 
 
-char *zfill(char *new, const char *str, int width) {
-    return ljust(new, str, width, '0');
+char *_zfill(char *new, const char *str, int width) {
+    return _ljust(new, str, width, '0');
 }
 
 
-char *replace(char *new, const char *str, const char *old_sub, 
+char *_replace(char *new, const char *str, const char *old_sub, 
               const char *new_sub,
               int max_replace) {
     int i = 0;
     int pos = 0;
     char *start = new;
-    int new_sub_len = strlength(new_sub);
-    int old_sub_len = strlength(old_sub);
+    int new_sub_len = _strlength(new_sub);
+    int old_sub_len = _strlength(old_sub);
     
-    while (max_replace-- && (pos = find(str, old_sub)) >= 0) {        
+    while (max_replace-- && (pos = _find(str, old_sub)) >= 0) {        
         for (i = 0; i < pos; i++)
             *new++ = *(str + i);
 
@@ -190,7 +190,7 @@ char *replace(char *new, const char *str, const char *old_sub,
 }
 
 
-char *lstrip(char *new, const char *str) {
+char *_lstrip(char *new, const char *str) {
     char *start = new;
 
     while (*str && (*str == '\t' || *str == '\r' || *str == '\n' || *str == ' '))
@@ -201,9 +201,9 @@ char *lstrip(char *new, const char *str) {
 }
 
 
-char *rstrip(char *new, const char *str) {
+char *_rstrip(char *new, const char *str) {
     char *start = new;
-    const char *end = str + strlength(str) - 1;
+    const char *end = str + _strlength(str) - 1;
 
     while (end >= str) {
         if (*end != '\t' && *end != '\r' && *end != '\n' && *end != ' ')
@@ -219,12 +219,12 @@ char *rstrip(char *new, const char *str) {
 }
 
 
-char *strip(char *new, const char *str) {
-    return rstrip(new, lstrip(new, str));
+char *_strip(char *new, const char *str) {
+    return _rstrip(new, _lstrip(new, str));
 }
 
 
-char *join(char *new, char **str, char sep) {
+char *_join(char *new, char **str, char sep) {
     char *chr;
     char *start = new;
 
@@ -305,3 +305,64 @@ int _isspace(const char *s) {
     }
     return 1;
 }
+
+
+typedef struct {
+    char * (*copy) (char *, const char *);
+    char * (*swapcase) (char *, const char *);
+    char * (*capitalize) (char *, const char *);
+    char * (*expandtabs) (char *, const char *, int);
+    char * (*ljust) (char *, const char *, int, char);
+    char * (*rjust) (char *, const char *, int, char);
+    char * (*zfill) (char *, const char *, int);
+    char * (*replace) (char *, const char *, const char *, const char *, int);
+    char * (*lstrip) (char *, const char *);
+    char * (*rstrip) (char *, const char *);
+    char * (*strip) (char *, const char *);
+    char * (*join) (char *, char **, char);
+
+    int (*startswith) (const char *, const char *);
+    int (*endswith) (const char *, const char *);
+    int (*find) (const char *, const char *);
+    int (*rfind) (const char *, const char *);
+    int (*count) (const char *, const char *);
+    int (*length) (const char *);
+
+    int (*isalpha) (const char *);
+    int (*isdigit) (const char *);
+    int (*isalnum) (const char *);
+    int (*islower) (const char *);
+    int (*isupper) (const char *);
+    int (*isspace) (const char *);
+
+} pyc_string_t;
+
+
+pyc_string_t string = { 
+    _strcopy,
+    _swapcase,
+    _capitalize,
+    _expandtabs,
+    _ljust,
+    _rjust,
+    _zfill,
+    _replace,
+    _lstrip,
+    _rstrip,
+    _strip,
+    _join,
+
+    _startswith,
+    _endswith,
+    _find,
+    _rfind,
+    _count,
+    _strlength,
+
+    _isalpha,
+    _isdigit,
+    _isalnum,
+    _islower,
+    _isupper,
+    _isspace,
+};
