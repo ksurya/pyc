@@ -5,7 +5,7 @@ Usage
 =====
 
 #include <stdio.h>
-#include "string.c"
+#include "pyc/string.h"
 
 int main() {
     char s[20];

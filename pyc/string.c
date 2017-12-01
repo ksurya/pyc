@@ -294,7 +294,7 @@ char *_zfill(char *new, const char *str, int width) {
 
 /**
     Returns a copy of str with all non-overlapping occurrences of old_sub
-    replaces with new_sub.
+    replaced with new_sub.
 
     Arguments
         new: output, pointer to the copy of the replaced char array
@@ -410,6 +410,24 @@ char *_join(char *new, char **str, char sep) {
         chr = *str;
         while((*new++ = *chr++) != '\0');
         *(new - 1) = *(str + 1) ? sep : '\0';
+        str++;
+    }
+
+    return start;
+}
+
+
+char **_split(char **arr, const char *str, const char *sep) {
+    int i, j;
+    char *next;
+    char **start = arr;
+
+    while((i = _find(str, sep)) != -1) {
+        next = *arr++;
+
+        for (j = 0; j < i && *str++; j++);
+
+        *next = '\0';
         str++;
     }
 
@@ -534,66 +552,3 @@ int _isspace(const char *s) {
     }
     return 1;
 }
-
-
-typedef struct {
-    char * (*copy) (char *, const char *);
-    char * (*swapcase) (char *, const char *);
-    char * (*capitalize) (char *, const char *);
-    char * (*expandtabs) (char *, const char *, int);
-    char * (*ljust) (char *, const char *, int, char);
-    char * (*rjust) (char *, const char *, int, char);
-    char * (*zfill) (char *, const char *, int);
-    char * (*replace) (char *, const char *, const char *, const char *, int);
-    char * (*lstrip) (char *, const char *);
-    char * (*rstrip) (char *, const char *);
-    char * (*strip) (char *, const char *);
-    char * (*join) (char *, char **, char);
-
-    int (*startswith) (const char *, const char *);
-    int (*endswith) (const char *, const char *);
-    int (*find) (const char *, const char *);
-    int (*rfind) (const char *, const char *);
-    int (*count) (const char *, const char *);
-    int (*length) (const char *);
-
-    int (*isalpha) (const char *);
-    int (*isdigit) (const char *);
-    int (*isalnum) (const char *);
-    int (*islower) (const char *);
-    int (*isupper) (const char *);
-    int (*isspace) (const char *);
-
-} pyc_string_t;
-
-
-// expose string functions through a structure
-// to *not* corrupt namespace
-const pyc_string_t pyc_string = { 
-    _strcopy,
-    _swapcase,
-    _capitalize,
-    _expandtabs,
-    _ljust,
-    _rjust,
-    _zfill,
-    _replace,
-    _lstrip,
-    _rstrip,
-    _strip,
-    _join,
-
-    _startswith,
-    _endswith,
-    _find,
-    _rfind,
-    _count,
-    _strlength,
-
-    _isalpha,
-    _isdigit,
-    _isalnum,
-    _islower,
-    _isupper,
-    _isspace,
-};
